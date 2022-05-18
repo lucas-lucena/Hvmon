@@ -49,9 +49,9 @@ dim(all_combinations)
 
 sort(super_effective_results,decreasing = TRUE)
 
-head(sort(super_effective_results,decreasing = TRUE), n=52)
+head(sort(super_effective_results,decreasing = TRUE), n=100)
 
-head(sort(super_effective_results,decreasing = FALSE), n=32)
+head(sort(super_effective_results,decreasing = FALSE), n=100)
 
 best_combos_wek <- all_combinations[, head(order(super_effective_results,decreasing = TRUE), n=39)]
 

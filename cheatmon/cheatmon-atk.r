@@ -9,7 +9,7 @@ type_comparisons <- tibble::tribble(
         "Grass",       1,   0.5,      2,   0.5,    0.5,      2,      1,     1,
         "Earth",       1,     2,    0.5,     2,    0.5,    0.5,      1,     1,
         "Light",       1,     1,      1,     1,      1,      1,    0.5,     2,
-         "Dark",       1,     1,      1,     1,      1,      1,      2,    0.5,
+         "Dark",       1,     1,      1,     1,      1,      1,      2,   0.5,
  )
 tidied_comparison <- type_comparisons %>%
   gather(Defending, outcome, -Attacking)
