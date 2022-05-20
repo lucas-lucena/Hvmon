@@ -1,0 +1,86 @@
+type Monster {
+    new(mon_id:   U32,                      // Monster gerated
+        dex_id: U32,                        // Monster number on HVdex
+        name: String,                       // Name given by the player
+        bons: Attribute                     // Collection of bonus by Monster
+        )
+}
+
+type Hvmon {
+    new(
+        elem: Pair<Element, Element>,       // Pair of element types
+        arch: Pair<Archetype, Archetype>,   // Pair of archetypes
+        attr: Attribute,                    // Collection of attributes
+        clas: Class                         // Playstyle/Strategy class
+    )
+}
+
+Choquinho:Monster
+    let choquinho = Monster.new(0, 0, "Choquinho", Attribute.new(10, 10, 10, 10))
+    choquinho
+
+Pikachu:Hvmon
+    let elements    = Pair.new<Element, Element>(Element.light, Element.nul)
+    let archetypes  = Pair.new<Archetype, Archetype>(Archetype.beast, Archetype.nul)
+    let attributes  = Attribute.new(10, 10, 10, 10)
+    let class       = Class.atk
+    let pikachu     = Hvmon.new(0, elements, archetypes, attributes, class)
+    pikachu
+
+Get_Hvmon(dex_id: U32):Maybe<Hvmon>
+    switch U32.eql(dex_id) {
+        0: some(Pikachu)
+    }   default none
+
+// Monster Elemental Type
+type Element {
+    nul
+    fire
+    water
+    earth
+    wind
+    grass
+    light
+    dark
+    normal
+}
+
+// Monster Archetype Category
+type Archetype {
+    nul
+    dragon
+    winged
+    plant
+    aquatic
+    dinosaur
+    holy
+    fiend
+    beast
+}
+
+// Monster stats attributes
+type Attribute {
+    new(hp: Nat, 
+        dmg: Nat, 
+        res: Nat, 
+        spd: Nat) 
+}
+
+// Monster class strategys
+type Class {
+    atk
+    def
+    sup
+}
+
+// monster:_
+    // let elements1 = Pair.new<Element, Element>(Element.earth, Element.nul)
+    // let archetypes1 = Pair.new<Archetype, Archetype>(Archetype.aquatic, Archetype.nul)
+    // let attributes1 = Attribute.new(10, 10, 10, 10)
+    // let brabomon = Monster.new(1, "Brabomon", elements1, archetypes1, attributes1, Class.atk)
+
+    // let elements = Pair.new<Element, Element>(Element.light, Element.nul)
+    // let archetypes = Pair.new<Archetype, Archetype>(Archetype.beast, Archetype.nul)
+    // let attributes = Attribute.new(10, 10, 10, 10)
+    // let pikachuDoDerenash = Monster.new(0, "Choquinho", elements, archetypes, attributes, Class.atk)
+    // pikachuDoDerenash
