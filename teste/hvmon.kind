@@ -1,0 +1,7 @@
+Hvmon:Hvmon
+    let elements    = Pair.new<Element, Element>(Element.normal, Element.nul)
+    let archetypes  = Pair.new<Archetype, Archetype>(Archetype.beast, Archetype.nul)
+    let attributes  = Attribute.new(250, 180, 180, 150)
+    let class       = Class.atk
+    let hvmon    = Hvmon.new(elements, archetypes, attributes, class)
+    hvmon

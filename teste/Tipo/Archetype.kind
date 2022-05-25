@@ -1,0 +1,12 @@
+// Monster Archetype Category
+type Tipo.Archetype {
+    nul
+    dragon
+    winged
+    plant
+    aquatic
+    dinosaur
+    holy
+    fiend
+    beast
+}

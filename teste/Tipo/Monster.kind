@@ -1,0 +1,7 @@
+type Tipo.Monster {
+    new(mon_id: U32,                // Monster gerated
+        dex_id: U32,                // Monster number on HVdex
+        name:   String,             // Name given by the player
+        bons:   Tipo.Attributes     // Collection of bonus by Monster
+    )
+}

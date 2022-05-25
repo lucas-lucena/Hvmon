@@ -1,0 +1,8 @@
+type Tipo.Hvmon {
+    new(
+        elem: Pair<Tipo.Element, Tipo.Element>,       // Pair of element types
+        arch: Pair<Tipo.Archetype, Tipo.Archetype>,   // Pair of archetypes
+        attr: Tipo.Attributes,                    // Collection of attributes
+        clas: Tipo.Class                         // Playstyle/Strategy class
+    )
+}

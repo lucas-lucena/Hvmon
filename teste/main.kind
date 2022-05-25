@@ -1,0 +1,19 @@
+// main:_
+//     let elem1       = Tipo.Element.light
+//     let arch1       = Tipo.Archetype.beast
+//     let elem0       = Tipo.Element.nul
+//     let arch0       = Tipo.Archetype.nul
+//     let class       = Tipo.Class.atk
+//     let atribs      = Tipo.Attributes.new(250, 180, 180, 150)
+    
+//     let elements    = Pair.new<Tipo.Element, Tipo.Element>(elem1, elem0)
+//     let archetypes  = Pair.new<Tipo.Archetype, Tipo.Archetype>(arch1, arch0)
+//     let hvmon       = Tipo.Hvmon.new(elements, archetypes, atribs, class)
+
+//     let monster     = Tipo.Monster.new(0, 0, "Monster", atribs)
+//     0   
+
+main:_ 
+    
+
+    main

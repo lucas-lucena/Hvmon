@@ -1,0 +1,6 @@
+// Monster class strategys
+type Tipo.Class {
+    atk
+    def
+    sup
+}

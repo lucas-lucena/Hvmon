@@ -1,0 +1,12 @@
+// Monster Elemental Type
+type Tipo.Element {
+    nul
+    fire
+    water
+    earth
+    wind
+    grass
+    light
+    dark
+    normal
+}

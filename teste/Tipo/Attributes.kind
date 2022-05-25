@@ -1,0 +1,7 @@
+// Monster stats attributes
+type Tipo.Attributes {
+    new(hp: U8, 
+        dmg: U8, 
+        res: U8, 
+        spd: U8) 
+}

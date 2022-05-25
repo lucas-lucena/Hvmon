@@ -15,21 +15,21 @@ type Hvmon {
     )
 }
 
-Choquinho:Monster
-    let choquinho = Monster.new(0, 0, "Choquinho", Attribute.new(10, 10, 10, 10))
-    choquinho
+Monster:Monster
+    let mon = Monster.new(0, 0, "Monster", Attribute.new(250, 180, 180, 150))
+    mon
 
-Pikachu:Hvmon
-    let elements    = Pair.new<Element, Element>(Element.light, Element.nul)
+Chicomon:Hvmon
+    let elements    = Pair.new<Element, Element>(Element.normal, Element.nul)
     let archetypes  = Pair.new<Archetype, Archetype>(Archetype.beast, Archetype.nul)
-    let attributes  = Attribute.new(10, 10, 10, 10)
+    let attributes  = Attribute.new(250, 180, 180, 150)
     let class       = Class.atk
-    let pikachu     = Hvmon.new(0, elements, archetypes, attributes, class)
-    pikachu
+    let chicomon    = Hvmon.new(elements, archetypes, attributes, class)
+    chicomon
 
 Get_Hvmon(dex_id: U32):Maybe<Hvmon>
     switch U32.eql(dex_id) {
-        0: some(Pikachu)
+        0: some(Chicomon)
     }   default none
 
 // Monster Elemental Type

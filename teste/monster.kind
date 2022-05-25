@@ -1,0 +1,4 @@
+Get_Hvmon(dex_id: U32):Maybe<Hvmon>
+    switch U32.eql(dex_id) {
+        0: some(hvmon)
+    }   default none
