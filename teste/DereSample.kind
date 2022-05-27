@@ -1,0 +1,200 @@
+// Either Left or Right
+type Player {
+  left
+  right
+}
+
+// Name of the minion and its Status
+type Minion {
+  new(name: String, status: Status)
+}
+
+type Status {
+  new(
+    hp: Nat
+    pps: List<Pair<String, Nat>>
+  )
+}
+
+Board: Type
+  Pair<Minion, Minion>
+
+// Move.pure is the initial state of the monad
+// Move.bind is a function that concatenates 2 Moves
+Move.monad: Monad<Move>
+  Monad.new<Move>(Move.bind, Move.pure)
+
+// From a board, a player and a move number, returns a Move.Result
+Move(A: Type): Type
+  (board: Board) -> (player: Player) -> (move_number: Nat) -> Move.Result<A>
+
+
+get_board(board: Board, player: Player, move_number: Nat): Move.Result<Board>
+  Move.Result.new<Board>(board, board, player, move_number)
+
+type Move.Result<A: Type> {
+  err(
+    message: String
+  )
+  new(
+    value: A
+    board: Board
+    player: Player
+    move_number: Nat 
+  )
+}
+
+// Combinator for 2 Moves 
+Move.bind<A: Type, B: Type>(effect_a: Move<A>, next: A -> Move<B>): Move<B>
+  (board, player, move_number)
+  let result_a = effect_a(board, player, move_number) 
+  case result_a {
+    err: Move.Result.err<B>(result_a.message) 
+    new:
+      let effect_b = next(result_a.value)
+      let result_b = effect_b(result_a.board, result_a.player, result_a.move_number) 
+      case result_b {
+        err:
+          Move.Result.err<B>(result_b.message)
+        new:
+          Move.Result.new<B>(result_b.value, result_b.board, result_b.player, result_b.move_number)
+      }
+  }
+
+// Initial State of Move
+Move.pure<A: Type>(value: A): Move<A>
+  Move.Result.new<A>(value)
+
+
+Board.show(board: Board): String
+  let minion_show = 
+    (minion: Minion)
+      let text = "\nName: " | minion@name | " \nHp: " | Nat.show(minion@status@hp) | " \nMoves:"
+      for move in minion@status@pps with text: 
+        let a = "\n  move: " | move@fst | "\n   pps: " | Nat.show(move@snd)
+        text | a
+      text
+  "First player: " | minion_show(board@fst) | "\n\nSecond Player: " | minion_show(board@snd)
+
+// Gets which Attack should be used
+Attack(minion: Minion, nat: Nat): Move<Unit>
+  let length = List.length!(minion@status@pps) // Gets the length of the pps list
+  let move   = List.get!(nat % length, minion@status@pps) // Gets the move at the index
+  without move: Move { return unit } // Returns unit if the move is not found
+  log(minion@name | " attacks with " | move@fst)
+  get_move(move@fst) // Gets the move
+
+// Runs a turn
+run_turn(left_move: Nat, right_move: Nat, board: Board): Board
+  let left_attack = Attack(board@fst, left_move) 
+  let right_attack = Attack(board@snd, right_move)
+  let left_result = left_attack(board, Player.left, left_move)
+  let board = 
+    case left_result {
+      err:
+        log("\n" | left_result.message | "\n")
+        let right_result = right_attack(board, Player.right, right_move)
+        case right_result {
+          err:
+            log("\n" | right_result.message | "\n")
+            board
+          new:
+            right_result.board
+        }
+      new:
+        let right_result = right_attack(left_result.board, Player.right, right_move)
+        case right_result {
+          err:
+            log("\n" | right_result.message | "\n")
+            left_result.board
+          new:
+            right_result.board
+        }
+    }
+  log("\n" | Board.show(board) | "\n")
+  board
+
+Move.reduce_enemy_hp(dmg: Nat): Move<Nat>
+  (board, player, move_number)
+  let enemy = case player {left: board@snd, right: board@fst} // Gets enemy minion
+  let status = enemy@status
+  let status = status@hp <~ (x: Nat) Nat.sub(x, dmg) // Reduce enemy hp
+  let hp_diff = enemy@status@hp - status@hp // Get difference between old and new hp
+  let enemy = enemy@status <- status  // Update enemy status
+  let new_board = case player {left: board@snd@status <- status right: board@fst@status <- status} // Update board
+  Move.Result.new<Nat>(hp_diff, new_board, player, move_number) 
+
+Move.set_board(new_board: Board): Move<Unit>
+  (board, player, move_number)
+  Move.Result.new<Unit>(unit, new_board, player, move_number)
+
+Move.increase_my_hp(heal: Nat): Move<Nat>
+  (board, player, move_number)
+  let my = case player {left: board@fst, right: board@snd} // Gets my minion
+  let old_status = my@status
+  let new_status = old_status@hp <~ (x: Nat) Nat.add(x, heal) // Increase my hp
+  let hp_diff = new_status@hp - old_status@hp // Get difference between old and new hp
+  let new_board = case player {left: board@fst@status <- new_status right: board@snd@status <- new_status} // Update board
+  Move.Result.new<Nat>(hp_diff, new_board, player, move_number)
+
+// Reduces pp of the move used
+// returns an error if there is not enough pp left
+Move.pp: Move<Unit>
+  (board, player, move_number)
+  let me = case player {left: board@fst, right: board@snd}
+  let status = me@status
+  let no_pp   = Pair.snd!!(List.get!(move_number, status@pps) <> {"asd", 0}) =? 0
+  if no_pp then Move.Result.err<Unit>("Not enough pp") else
+  let new_status = status@pps <~ List.mut!(move_number, Pair.map!!!((x) Nat.sub(x, 1)))
+  let new_board = case player {left: board@fst@status <- new_status right: board@snd@status <- new_status}
+  Move.Result.new<Unit>(unit, new_board, player, move_number)
+
+
+get_move(name: String): Move<Unit> // Gets the move
+  switch String.eql(name) {
+    "Thunder_shock": Thunder_shock
+    "Drain_punch": Drain_punch
+    "Thunder_bolt": Thunder_bolt
+    "Extreme_speed": Extreme_speed
+  }default Move { return unit }  
+
+
+Thunder_shock: Move<Unit>
+  Move {
+    Move.reduce_enemy_hp(40)
+    Move.pp
+  }
+
+Drain_punch: Move<Unit>
+  Move {
+    Move.pp // Reduces pp and returns an error if there is not enough pp
+    get dmg_dealt = Move.reduce_enemy_hp(20) // Reduces enemy hp by 20
+    Move.increase_my_hp(dmg_dealt / 2) // Increases my hp by half of the dmg dealt
+    return unit
+  }
+
+Thunder_bolt: Move<Unit>
+  Move {
+    Move.pp // Reduces pp and returns an error if there is not enough pp
+    Move.reduce_enemy_hp(50) // Reduces enemy hp by 50
+    return unit
+  }
+
+Extreme_speed: Move<Unit>
+  Move {	
+    Move.pp // Reduces pp and returns an error if there is not enough pp
+    Move.reduce_enemy_hp(30) // Reduces enemy hp by 30
+    return unit
+  }
+
+Test :_ 
+  let minion_a    = Minion.new("Choquinho", Status.new(200, [{"Thunder_shock", 15}, {"Thunder_bolt", 25}]))
+  let minion_b    = Minion.new("Arcanine", Status.new(150, [{"Extreme_speed", 15}, {"Drain_punch", 5}]))
+  let board       = {minion_a, minion_b}
+  log("\n" | Board.show(board) | "\n")
+  let board       = run_turn(0, 0, board)
+  let board       = run_turn(1, 1, board)
+  let board       = run_turn(0, 1, board)
+  let board       = run_turn(1, 0, board)
+  let board       = run_turn(0, 0, board)
+  "end"
