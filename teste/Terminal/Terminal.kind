@@ -1,0 +1,122 @@
+// // Shows Monsters's Archetype
+// Archetype.show(archshow: Tipo.Archetype): String
+//     case archshow {
+//         dragon: "Dragon"
+//         winged: "Winged"
+//         plant: "Plant"
+//         aquatic: "Aquatic"
+//         dinosaur: "Dinosaur"
+//         holy: "Holy"
+//         fiend: "Fiend"
+//         beast: "Beast"
+//     }
+
+// // Shows Monster's Element
+// Element.show(archread: Tipo.Element): String
+//     case archread {
+//         nul: ""
+//         fire: "Fire"
+//         water: "Water"
+//         earth: "Earth"
+//         wind: "Wind"
+//         grass: "Grass"
+//         light: "Light"
+//         dark: "Dark"
+//         normal: "Normal"
+//     }
+
+// Shows the assigned magic as a the name of the magic
+Magic.show(magicshow: Tipo.Magic): String
+    case magicshow {
+    Tipo.Magic.Stab: "Stab"
+    Tipo.Magic.Nova: "Nova"
+    Tipo.Magic.Blast: "Blast"
+    Tipo.Magic.Slash: "Slash"
+    }
+
+
+// Reads the input from the player and assign it to a magic
+Magic.read(magicread: String): Tipo.Magic
+    case magicread {
+    "1": Tipo.Magic.Stab
+    "2": Tipo.Magic.Nova
+    "3": Tipo.Magic.Blast
+    "4": Tipo.Magic.Slash
+    }
+
+Magic.cpurandom(magiccpu: Nat): Tipo.Magic
+    case magiccpu {
+        zero: Tipo.Magic.Stab
+        succ: case magiccpu.pred {
+            zero: Tipo.Magic.Nova
+            succ: case magiccpu.pred.pred {
+                zero: Tipo.Magic.Blast
+                succ: Tipo.Magic.Slash
+            }
+        }
+    }
+
+
+
+// Baisc logic of how we can make the hp status and etc
+
+// Tipo.Hvmon.Choquinho.HP.State
+
+// shows hvmon's health points
+// Hvmon.hp.show(hpshow: Nat): Tipo.Attributes.hp.state
+//  case hpshot {
+//      zero: Tipo.Attributes.hp.dead
+//      succ: Tipo.Atributes.hp.alive
+
+//  }
+
+
+
+
+// Example of things that will be outputted in the prototype terminal 
+
+Terminal: IO(U8)
+    IO {
+        IO.print("Welcome to High Order Virtual Monsters! \n")
+
+        get line = IO.get_line
+        
+        get cpumagic = IO.random(4)
+        let cpu_used = cpurandom(cpumagic)
+        let player_used = Magic.read(line)
+
+        // cpu part of the terminal
+        let cpu_monster = TBD
+        let cpu_remaining_life = TBD
+        let cpu_max_life = TBD
+        let cpu_used_move = Magic.show(cpu_used)
+        let cpu_damage = TBD
+
+        // player part of the temrinal
+        let player_monster =TBD
+        let player_remaining_life = TBD
+        let player_max_life = TBD
+        let player_used_move = Magic.show(player_used)
+        let player_damage = TBD
+
+        // Moves reads and etc
+        let movea = Tipo.Magic.Stab
+        let moveb = Tipo.Magic.Nova
+        let movex = Tipo.Magic.Blast
+        let movey = Tipo.Magic.Slash
+
+
+
+        IO.print("\nEnemy Monster: " | cpu_monster | " \nHP: " cpu_remaining_life " / " cpu_max_life)
+
+        IO.print("\n---------------------------------------------------------------------\n")
+
+        IO.print("Your Monster: " | player_monster | " \nHP: " player_remaining_life " / " player_max_life)
+
+        IO.print("\n\n======================================================================\n")
+
+        IO.print("Moves: 1 - " | movea | " | 2 - " | moveb | " | 3 - " | movex | " | 4 - " | movey "\nChoose Your Next Move: ")
+
+        IO.print("\nYou Used " | player_used_move | "\n" | cpu_monster | " Lost " | player_damage)
+        IO.print("\nOpponent Used " | cpu_used_move | "\n" | player_monster | " Lost " | cpu_damage)
+    }

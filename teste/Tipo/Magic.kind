@@ -1,0 +1,124 @@
+// type Tipo.Move {
+//     new(dmg: U8,
+//         id: U8,
+//         pp: U8,
+//         element: Tipo.Element)
+// }
+
+type Tipo.Magic {
+    new(stab: Stab,
+        blast: Blast,
+        nova: Nova,
+        slash: Slash)
+}
+
+
+
+type Stab {
+    U8
+}
+type Nova {
+    U8
+}
+type Blast {
+    U8
+}
+type Slash {
+    U8
+}
+
+Tipo.Magic.Stab(stab: Stab): U8
+    case stab {
+        U8: 40#8
+    }
+
+Tipo.Magic.Nova(nova: Nova): U8
+    case stab {
+        U8: 50#8
+    }
+
+Tipo.Magic.Blat(blast: Blast): U8
+    case stab {
+        U8: 55#8
+    }
+
+Tipo.Magic.Slash(slash: Slash): U8
+    case stab {
+        U8: 60#8
+    }
+
+// Tipo.Magic.Dmg(magicshow: Tipo.Magic): U8
+// case magicshow {
+//     new: 
+//     case magicshow.stab {
+//         new: 40#8
+//     }
+//     new: 
+//     case magicshow.blast {
+//         new: 50#8
+//     }
+//     new: 
+//     case magicshow.nova {
+//         new: 55#8
+//     }
+//     new:
+//     case magicshow.punch {
+//         new: 60#8
+//     }
+// }
+
+
+// Magic: U8
+//     Tipo.Magic.Stab(Stab.U8)
+
+
+
+// Other ways of making the magics, more complicated ones that we will take a look in to after
+//
+//     type Magic {
+//    new(id: U8) 
+//     //new(stab: U8, blast: U8, punch: U8, slash: U8)
+// }
+// stab:Magic
+//     Magic.new(0#8,60#8,Element.fire, 8#8)
+// blast:Magic
+//     Magic.new(1#8,80#8,Element.normal, 16#8)
+// punch:Magic
+//     Magic.new(2#8,80#8,Element.normal, 16#8)
+// slash:Magic
+//     Magic.new(3#8,80#8,Element.normal, 16#8)
+
+// fmove(id: U8): Maybe<Magic>
+//     switch U8.eql(id) {
+//         0: some(stab)
+//         1: some(blast)
+//         2: some(stab)
+//         3: some(stab)
+//     }   default none
+
+
+
+// type rapido {
+//     new(
+//         dmg: U8, 
+//         element: Tipo.Element, 
+//         pp: U8)
+// }
+
+// type escudo {
+//     new(
+//         ...
+//     )
+// }
+
+// type skill {
+//     dano(rapido: rapido)
+//     escudo(escudo: escudo)
+//     cura(cura: cura)
+// }
+
+// skills:Map<skill>
+//     [{0, skill.dano(rapido.new(dmg, elem, pp)) }]
+
+
+
