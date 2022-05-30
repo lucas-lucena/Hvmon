@@ -1,0 +1,53 @@
+
+
+
+// buff(atk,def,spd)
+// status(neg(),refl(), cura(50%), slow_cura(75%), BtPs, low_life(%50 de vida))
+// efeito(poison1(30%), burn, frz, prlz, sleep, confuns, roar(trocar), flinch)
+
+// type Magic {
+//    new(dmg: U8, element_move: Element, pp: U8,acc: U8, skill:{2,4}) 
+//     //new(stab: U8, blast: U8, punch: U8, slash: U8)
+// }
+// stab:Magic
+//     Magic.new(0#8,60#8,Element.fire, 8#8, 0#8)
+// blast:Magic
+//     Magic.new(1#8,80#8,Element.normal, 16#8)
+// btps:Magic
+//     Magic.new(00#8,Element.normal, 16#8, {2,3})
+// hykick:Magic
+//     Magic.new(127#8,Element.normal, 16#8, 90#8, {1,5})
+// fmove(id: U8): Maybe<Magic>
+//     switch U8.eql(id) {
+//         0: some(stab)
+//         1: some(blast)
+//         2: some(stab)
+//         3: some(stab)
+//     }   default none
+
+// // type Stab {
+// //     new(dmg: U8)
+// // }
+
+// // Magic.Dmg(magicshow: Magic): Nat
+// //     case magicshow {
+// //         new: 
+// //         case magicshow.stab {
+// //             new: 40
+// //         }
+// //         new: 
+// //         case magicshow.blast {
+// //             new: 50
+// //         }
+// //         new: 
+// //         case magicshow.nova {
+// //             new: 55
+// //         }
+// //         new:
+// //         case magicshow.punch {
+// //             new: 60
+// //         }
+// //     }
+
+// Init:_
+// ?s
