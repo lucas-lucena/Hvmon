@@ -1,7 +1,6 @@
 
 ###  CALCULO DE DANO DOS HVMONs
 
-
 * (((((2*64/5) * ATK * Atk_Move)/DEF)/64) * Move_type * WEAK_or_RES * BURN_or_FRZ)
 ```                                                    
     *   Move_type: Se o move é iqual os tipo do HVmon (1 ou 1.25) 
