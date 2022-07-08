@@ -7,4 +7,4 @@ than 50 different types of move sets, build a perfect team and defeat your oppon
 A 100% in-blockchain game that is actually fun to play!
 
 
-** *Heavily inspired in Pokémon Showdown**
+***Heavily inspired in Pokémon Showdown**
